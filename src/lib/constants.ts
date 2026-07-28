@@ -1,0 +1,3 @@
+export const SUPPORT_PHONE_DISPLAY = "0722 474 205";
+export const SUPPORT_PHONE_TEL = "+254722474205";
+export const SUPPORT_WHATSAPP_URL = "https://wa.me/254722474205";
