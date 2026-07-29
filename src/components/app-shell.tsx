@@ -22,6 +22,12 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth, type AppRole } from "@/lib/auth";
 import { useSubscription } from "@/lib/hooks/use-subscription";
 import { initials } from "@/lib/utils";
@@ -101,11 +107,10 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               await signOut();
               nav_({ to: "/" });
             }}
-            className="text-sidebar-foreground/70 hover:text-white"
-            aria-label="Sign out"
+            className="flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-medium text-sidebar-foreground/70 hover:bg-white/5 hover:text-white"
             type="button"
           >
-            <LogOut className="size-4" />
+            <LogOut className="size-3.5" /> Log out
           </button>
         </div>
       </div>
@@ -248,10 +253,35 @@ export function AppShell({
               >
                 <Bell className="size-4.5" />
               </button>
-              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium">
-                <Store className="size-4 text-primary" />
-                <span className="truncate max-w-[10rem]">{profile?.business_name || "My Business"}</span>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium transition hover:bg-muted"
+                  >
+                    <Store className="size-4 text-primary" />
+                    <span className="truncate max-w-[10rem]">{profile?.business_name || "My Business"}</span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  {role === "business_owner" && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/settings" className="cursor-pointer">
+                        <Settings className="mr-2 size-4" /> Settings
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                    onClick={async () => {
+                      await signOut();
+                      navigate({ to: "/" });
+                    }}
+                  >
+                    <LogOut className="mr-2 size-4" /> Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </header>

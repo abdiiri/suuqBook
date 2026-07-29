@@ -1,0 +1,3 @@
+# Set this to your own Supabase project ref (Project Settings → General → Reference ID)
+# if you use the Supabase CLI (`supabase link`, `supabase db push`).
+project_id = "your-project-ref-here"
